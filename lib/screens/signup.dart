@@ -18,10 +18,10 @@ class SignUpScreen extends StatelessWidget {
       body: Container(
           child: Stack(
         children: [
-          const RiveAnimation.asset(
-            "assets/rive/cute.riv",
-            fit: BoxFit.cover,
-          ),
+          // const RiveAnimation.asset(
+          //   "assets/rive/cute.riv",
+          //   fit: BoxFit.cover,
+          // ),
           Container(
             decoration: BoxDecoration(
                 color: Colors.transparent.withOpacity(.3),

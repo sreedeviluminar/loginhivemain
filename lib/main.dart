@@ -60,6 +60,7 @@ class LoginScreen extends StatelessWidget {
                       final list = await DBFunctions.instance.getUsers();
                       checkUser(list);
 
+                      print(list);
                     }, child: const Text("Login Here"))),
                 TextButton(
                     onPressed: () {
