@@ -14,6 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox<UserModel>('user');
+  Hive.registerAdapter(UserModelAdapter());
   runApp(GetMaterialApp(
     home: LoginScreen(),
   ));

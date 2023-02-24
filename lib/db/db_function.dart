@@ -15,8 +15,10 @@ import '../models/user_model.dart';
   db.put(user.id, user);
   }
 
+  //getUsers
   Future<List<UserModel>> getUsers() async {
     final db = await Hive.openBox<UserModel>('user');
+
     return db.values.toList();
   }
 
