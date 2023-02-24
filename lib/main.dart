@@ -7,6 +7,7 @@ import 'package:loginhivemain/models/user_model.dart';
 import 'package:loginhivemain/screens/signup.dart';
 import 'package:rive/rive.dart';
 
+import 'db/db_function.dart';
 import 'screens/home page.dart';
 
 void main() async {
@@ -54,8 +55,11 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                     height: 40,
                     width: 200,
-                    child: ElevatedButton(onPressed: () {
-                      Get.to(()=>HomeScreen());
+                    child: ElevatedButton(onPressed: () async {
+
+                      final list = await DBFunctions.instance.getUsers();
+                      checkUser(list);
+
                     }, child: const Text("Login Here"))),
                 TextButton(
                     onPressed: () {
@@ -68,5 +72,42 @@ class LoginScreen extends StatelessWidget {
         ],
       )),
     );
+  }
+
+  Future<void>  checkUser(List<UserModel> list)  async{
+    final email = email_controller.text.trim();
+    final pass  = password_controler.text.trim();
+
+    bool isUserFound = false;
+    final isValidated = await validateLogin(email,pass);
+
+    if(isValidated == true){
+
+      await Future.forEach(list, (user) {
+        if(user.email == email &&  user.password == pass){
+          isUserFound = true;
+        }else{
+          isUserFound = false;
+        }
+      });
+
+      if( isUserFound == true){
+        Get.offAll(()=> HomeScreen(email : email));
+        Get.snackbar("Success", "Logged in $email");
+      }else{
+        Get.snackbar("error", "incorrect email or password");
+      }
+    }else{
+      Get.snackbar("error", "Fields cannot be empty");
+
+    }
+  }
+
+ Future<bool>  validateLogin(String email, String pass) async {
+    if(email != ' ' && pass != " "){
+      return true;
+    }else{
+      return false;
+    }
   }
 }
